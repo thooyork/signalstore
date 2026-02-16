@@ -1,10 +1,4 @@
 <div class="app">
-
-
-  @if(store.loading()) {
-    <mat-spinner style="margin: 0 auto;" diameter="40"></mat-spinner>
-  }
-  @else {
-    <todos-list></todos-list>
-  }
+  <navigation></navigation>
+  <router-outlet></router-outlet>
 </div>

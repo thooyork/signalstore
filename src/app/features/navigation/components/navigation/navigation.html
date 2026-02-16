@@ -1,0 +1,10 @@
+<mat-toolbar>
+  <mat-toolbar-row>
+  
+    @for (page of pages; track page.path) {
+        <button mat-button (click)="navigateTo(page.path)">
+           {{ page.label }}
+        </button>
+    }
+  </mat-toolbar-row>
+</mat-toolbar>

@@ -1,0 +1,31 @@
+@if (store.loading()) {
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+} @else {
+  <div class="todo-container">
+    <h1>What needs to be done?</h1>
+
+    <mat-form-field class="todo-input">
+      <input matInput #input placeholder="Add a new todo" (keyup.enter)="addTodo(input.value)" />
+      <mat-icon matSuffix (click)="addTodo(input.value)">edit</mat-icon>
+    </mat-form-field>
+
+    <mat-button-toggle-group #filter (change)="updateFilter($event)">
+      <mat-button-toggle value="all">All</mat-button-toggle>
+      <mat-button-toggle value="pending">Pending</mat-button-toggle>
+      <mat-button-toggle value="completed">Completed</mat-button-toggle>
+    </mat-button-toggle-group>
+
+    <mat-selection-list class="todos-list" (selectionChange)="onSelectionChange($event)">
+      @for (todo of store.filteredTodos(); track todo.id) {
+        <mat-list-option [value]="todo" [selected]="todo.completed">
+          <div class="todo-item">
+            <mat-icon class="delete-icon" (click)="deleteTodo(todo.id, $event)"
+              >delete_outline</mat-icon
+            >
+            <span [class.completed]="todo.completed">{{ todo.title }}</span>
+          </div>
+        </mat-list-option>
+      }
+    </mat-selection-list>
+  </div>
+}

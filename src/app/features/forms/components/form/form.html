@@ -1,0 +1,34 @@
+@let form = orderForm;
+
+    <div class="form-container">
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput type="text" [formField]="form.name" />
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput type="email" [formField]="form.email" />
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Street</mat-label>
+            <input matInput type="text" [formField]="form.street" />
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>City</mat-label>
+            <input matInput type="text" [formField]="form.city" />
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Zip</mat-label>
+            <input matInput type="text" [formField]="form.zip" />
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Payment Method</mat-label>
+            <mat-select matInput [formField]="form.paymentMethod">
+                <mat-option value="cash">Cash</mat-option>
+                <mat-option value="card">Card</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <button mat-button (click)="submitForm($event)" [disabled]="!form().valid()">Submit</button>
+    </div>
+

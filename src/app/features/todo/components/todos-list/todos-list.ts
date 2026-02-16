@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, ElementRef, inject, viewChild, ViewChild } from '@angular/core';
-import { MatButton } from '@angular/material/button';
+import { Component, effect, ElementRef, inject, OnInit, viewChild, ViewChild } from '@angular/core';
 import {
   MatButtonToggleChange,
   MatButtonToggleGroup,
@@ -9,8 +8,9 @@ import {
 import { MatFormFieldModule, MatSuffix } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { TodosFilter, TodosStore } from '../store/todo.store';
+import { TodosFilter, TodosStore } from '../../store/todo.store';
 import { MatListModule, MatListOption, MatSelectionListChange } from '@angular/material/list';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'todos-list',
@@ -20,27 +20,40 @@ import { MatListModule, MatListOption, MatSelectionListChange } from '@angular/m
     MatIconModule,
     CommonModule,
     MatSuffix,
-    MatButton,
     MatButtonToggleModule,
     MatListModule,
     MatListOption,
+    MatProgressSpinner,
   ],
   templateUrl: './todos-list.html',
   styleUrl: './todos-list.scss',
   standalone: true,
 })
-export class TodosList {
+export class TodosList implements OnInit {
   @ViewChild('input') input!: ElementRef<HTMLInputElement>;
 
-  filter = viewChild.required(MatButtonToggleGroup);
+  store = inject(TodosStore);
 
-  constructor() {
-    effect(() => {
-      this.filter().value = this.store.filter();
+  ngOnInit(): void {
+    this.loadTodos().then(() => {
+      console.log(this.store.todos());
     });
   }
 
-  store = inject(TodosStore);
+  filter = viewChild(MatButtonToggleGroup);
+
+  constructor() {
+    effect(() => {
+      const filterEl = this.filter();
+      if (filterEl) {
+        filterEl.value = this.store.filter();
+      }
+    });
+  }
+
+  async loadTodos() {
+    await this.store.loadAll();
+  }
 
   async addTodo(title: string) {
     this.input.nativeElement.value = '';

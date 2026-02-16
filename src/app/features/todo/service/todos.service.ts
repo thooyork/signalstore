@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { TODOS } from '../model/mock-data';
 import { Todo } from '../model/todo.model';
 
 async function sleep(ms: number) {
