@@ -15,7 +15,7 @@ export interface IOrderForm {
 }
 
 export const OrderFormModel = signal<IOrderForm>({
-    name: 'hans wurst',
+    name: '',
     email: '',
     street: '',
     city: '',
