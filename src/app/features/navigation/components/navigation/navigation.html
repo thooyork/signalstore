@@ -1,8 +1,7 @@
 <mat-toolbar>
-  <mat-toolbar-row>
-  
+  <mat-toolbar-row class="toolbar">
     @for (page of pages; track page.path) {
-        <button mat-button (click)="navigateTo(page.path)">
+        <button mat-button class="nav-button" (click)="navigateTo(page.path)">
            {{ page.label }}
         </button>
     }

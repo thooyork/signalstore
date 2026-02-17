@@ -1,4 +1,5 @@
 @let form = orderForm;
+<div class="outer-container">
 
     <div class="form-container">
         <mat-form-field>
@@ -9,9 +10,8 @@
         <mat-form-field>
             <mat-label>Email</mat-label>
             <input matInput type="email" [formField]="form.email" />
-
-            <mat-error *ngIf="form.email().errors().length">Invalid email</mat-error>
-        </mat-form-field>
+            <mat-error *ngIf="hasError('email', 'required') || hasError('email', 'email')">{{form.email().errors()[0].message}}</mat-error>
+       </mat-form-field>
         <mat-form-field>
             <mat-label>Street</mat-label>
             <input matInput type="text" [formField]="form.street" />
@@ -31,7 +31,13 @@
                 <mat-option value="card">Card</mat-option>
             </mat-select>
         </mat-form-field>
-
+        
         <button mat-button (click)="submitForm($event)" [disabled]="!form().valid()">Submit</button>
     </div>
-
+    
+    
+    <div class="form-state-summary">    
+        <h2>Form State Summary</h2>
+        <pre>{{ stateSummary() | json }}</pre>
+    </div>
+</div>

@@ -5,6 +5,15 @@
   align-items: center;
 }
 
+.outer-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  gap: 50px;
+}
+
 .form-container {
   display: flex;
   flex-direction: column;
@@ -16,4 +25,11 @@
   mat-form-field {
     width: 100%;
   }
+}
+
+.form-state-summary {
+  background-color: #f0f0f0;
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%;
 }
