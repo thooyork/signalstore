@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
+import { orderSchema } from '../../schemas/order-schema';
 
 @Component({
   selector: 'form',
@@ -14,12 +15,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './form.scss',
 })
 export class Form {
-  orderForm = form(OrderFormModel, (f)=>{
-    required(f.name,{message: 'Name is strictly  required' });
-
-    required(f.email,{message: 'Email is required' });
-    email(f.email,{message: 'Invalid email' });
-  });
+  orderForm = form(OrderFormModel, orderSchema);
 
   hasError(field: keyof IOrderForm, kind: string): boolean {
     return this.orderForm[field]().errors().some(e => e.kind === kind);
