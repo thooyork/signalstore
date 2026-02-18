@@ -1,29 +1,18 @@
-import { email, hidden, required, schema, validate, validateTree, metadata } from '@angular/forms/signals';
+import { email, hidden, required, schema, validate, validateTree, metadata, apply } from '@angular/forms/signals';
 import { IOrderForm, PaymentMethod } from '../model/form.model';
 import * as cardvalidator from 'card-validator';
 import { createMetadataKey } from '@angular/forms/signals';
+import { emailSchema } from './email.schema';
+import { passwordSchema } from './password.schema';
 
 export const CARD_TYPE = createMetadataKey<string>();
 
 export const orderSchema = schema<IOrderForm>((f) => {
   required(f.name, { message: 'Name is required' });
-  required(f.email, { message: 'Email is required' });
-  email(f.email, { message: 'Invalid email address' });
-
-  validateTree(f, ({value, fieldTreeOf})=>{
-    return value().password === value().confirmPassword
-      ? undefined
-      : [
-        { fieldTree: fieldTreeOf(f.confirmPassword), kind: 'passwordmatch', message: 'Passwords do not match' },
-        { fieldTree: fieldTreeOf(f.password), kind: 'passwordmatch', message: 'Passwords do not match' },
-      ];
-  });
-
-  // required(f.cardNumber, { 
-  //   when: (ctx) => {
-  //     return ctx.valueOf(f.paymentMethod) === PaymentMethod.Card;
-  //   }
-  //  });
+  
+  apply(f.email, emailSchema);
+  
+  apply(f, passwordSchema);
 
   required(f.cardNumber);
   hidden(f.cardNumber, (ctx) => {
