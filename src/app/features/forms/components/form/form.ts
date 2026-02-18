@@ -1,21 +1,33 @@
-import { Component, computed, effect } from '@angular/core';
-import { FieldTree, FormField, ValidationError, email, form, required } from '@angular/forms/signals';
+import { Component, computed, signal } from '@angular/core';
+import { FormField, ValidationError, form, submit } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
 import { IOrderForm, OrderFormModel } from '../../model/form.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
 import { orderSchema } from '../../schemas/order-schema';
 
 @Component({
   selector: 'form',
-  imports: [FormField, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, CommonModule],
+  imports: [FormField, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, CommonModule, MatIconModule],
   templateUrl: './form.html',
   styleUrl: './form.scss',
 })
 export class Form {
   orderForm = form(OrderFormModel, orderSchema);
+
+  showPassword = signal(false);
+  showConfirmPassword = signal(false);
+
+  toggleShowPassword() {
+    this.showPassword.update(val => !val);
+  }
+
+  toggleShowConfirmPassword() {
+    this.showConfirmPassword.update(val => !val);
+  }
 
   hasError(field: keyof IOrderForm, kind: string): boolean {
     return this.orderForm[field]().errors().some(e => e.kind === kind);
@@ -41,8 +53,24 @@ export class Form {
     };
   });
 
+
   public submitForm(e: Event) {
     e.preventDefault();
-    console.log(this.orderForm().value());
+
+    submit(this.orderForm, async (form) => {
+      try {
+        const delay = new Promise((resolve) => setTimeout(resolve, 2500));
+        await delay;
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts', {
+          method: 'POST',
+          body: JSON.stringify(form().value()),
+        });
+        console.log("payload ----->", this.orderForm().value());
+        console.log("response -----> ", await response.json());
+        return undefined;
+      } catch (error) {
+        return { message: 'Failed to submit form', kind: "submit" } as ValidationError;
+      }
+    });
   }
 }

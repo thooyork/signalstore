@@ -5,7 +5,7 @@
         <mat-form-field>
             <mat-label>Name</mat-label>
             <input matInput type="text" [formField]="form.name" />
-            <mat-error *ngIf="form.name().errors().length">{{form.name().errors()[0].message}}</mat-error>
+            <mat-error *ngIf="hasError('name', 'required')">{{form.name().errors()[0].message}}</mat-error>
         </mat-form-field>
         <mat-form-field>
             <mat-label>Email</mat-label>
@@ -24,6 +24,20 @@
             <mat-label>Zip</mat-label>
             <input matInput type="text" [formField]="form.zip" />
         </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput [type]="showPassword() ? 'text' : 'password'" [formField]="form.password" />
+            <mat-icon matSuffix (click)="toggleShowPassword()">{{showPassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Confirm Password</mat-label>
+            <input matInput [type]="showConfirmPassword() ? 'text' : 'password'" [formField]="form.confirmPassword" />
+            <mat-icon matSuffix (click)="toggleShowConfirmPassword()">{{showConfirmPassword() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </mat-form-field>
+
+
         <mat-form-field>
             <mat-label>Payment Method</mat-label>
             <mat-select matInput [formField]="form.paymentMethod">
@@ -32,7 +46,7 @@
             </mat-select>
         </mat-form-field>
         
-        <button mat-button (click)="submitForm($event)" [disabled]="!form().valid()">Submit</button>
+        <button mat-button (click)="submitForm($event)" [disabled]="form().invalid() || form().submitting()">Submit</button>
     </div>
     
     
