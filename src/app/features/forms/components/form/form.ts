@@ -1,13 +1,14 @@
 import { Component, computed, signal } from '@angular/core';
 import { FormField, ValidationError, form, submit } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
-import { IOrderForm, OrderFormModel } from '../../model/form.model';
+import { IOrderForm, OrderFormModel, PaymentMethod } from '../../model/form.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
-import { orderSchema } from '../../schemas/order-schema';
+import { orderSchema, CARD_TYPE } from '../../schemas/order-schema';
+import { MatIconModule } from '@angular/material/icon';
+
 
 @Component({
   selector: 'form',
@@ -16,6 +17,7 @@ import { orderSchema } from '../../schemas/order-schema';
   styleUrl: './form.scss',
 })
 export class Form {
+  readonly CARD_TYPE = CARD_TYPE;
   orderForm = form(OrderFormModel, orderSchema);
 
   showPassword = signal(false);

@@ -14,6 +14,7 @@ export interface IOrderForm {
     password: string;
     confirmPassword: string;
     paymentMethod: string;
+    cardNumber: string;
 }
 
 export const OrderFormModel = signal<IOrderForm>({
@@ -24,5 +25,6 @@ export const OrderFormModel = signal<IOrderForm>({
     zip: '',
     password: '',
     confirmPassword: '',
-    paymentMethod: PaymentMethod.Cash.toString(),
+    paymentMethod: PaymentMethod.Cash,
+    cardNumber: '',
 });
