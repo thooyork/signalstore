@@ -1,6 +1,5 @@
 import {
   createMetadataKey,
-  hidden,
   metadata,
   required,
   schema,
