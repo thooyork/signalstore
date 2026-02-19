@@ -12,7 +12,7 @@ export const routes: Routes = [
   },
   {
     path: 'forms',
-    loadComponent: () => import('./features/forms/components/form/form').then((m) => m.Form),
+    loadComponent: () => import('./features/forms/order/order-form').then((m) => m.OrderForm),
   },
   {
     path: '**',

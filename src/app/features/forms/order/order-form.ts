@@ -1,24 +1,41 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { FormField, ValidationError, form, submit } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
-import { IOrderForm, OrderFormModel, PaymentMethod } from '../../model/form.model';
+import { IOrderForm, OrderFormModel } from './order-form.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { CommonModule } from '@angular/common';
-import { orderSchema, CARD_TYPE } from '../../schemas/order-schema';
+import { orderFormSchema } from './order-form.schema';
 import { MatIconModule } from '@angular/material/icon';
-
+import { CreditcardForm } from '../creditcard/creditcard-form';
+import { hasError } from '../shared/has-error';
 
 @Component({
-  selector: 'form',
-  imports: [FormField, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, CommonModule, MatIconModule],
-  templateUrl: './form.html',
-  styleUrl: './form.scss',
+  selector: 'order-form',
+  imports: [FormField, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, CommonModule, MatIconModule, CreditcardForm],
+  templateUrl: './order-form.html',
+  styleUrl: './order-form.scss',
 })
-export class Form {
-  readonly CARD_TYPE = CARD_TYPE;
-  orderForm = form(OrderFormModel, orderSchema);
+export class OrderForm {
+  public orderForm = form(OrderFormModel, orderFormSchema);
+
+  public hasError = hasError;
+
+  constructor() {
+    effect(() => {
+      if (this.orderForm.creditcardinformation().hidden()) {
+        console.log("resetting creditcardinformation");
+        this.orderForm.creditcardinformation().reset({
+          name: '',
+          number: '',
+          expirationDate: '',
+          cvv: '',
+          type: '',
+        });
+      }
+    });
+  }
 
   showPassword = signal(false);
   showConfirmPassword = signal(false);
@@ -31,10 +48,6 @@ export class Form {
     this.showConfirmPassword.update(val => !val);
   }
 
-  hasError(field: keyof IOrderForm, kind: string): boolean {
-    return this.orderForm[field]().errors().some(e => e.kind === kind);
-  }
-
   stateSummary = computed(() => {
     const state = this.orderForm();
     return {
@@ -42,19 +55,8 @@ export class Form {
       valid: state.valid(),
       dirty: state.dirty(),
       touched: state.touched(),
-      fields: {
-        name: {
-          value: this.orderForm.name().value(),
-          errors: this.orderForm.name().errors().map(e => ({ kind: e.kind, message: e.message })),
-        },
-        email: {
-          value: this.orderForm.email().value(),
-          errors: this.orderForm.email().errors().map(e => ({ kind: e.kind, message: e.message })),
-        },
-      },
     };
   });
-
 
   public submitForm(e: Event) {
     e.preventDefault();

@@ -1,6 +1,5 @@
-// password.schema.ts
 import { schema, validateTree } from '@angular/forms/signals';
-import { IOrderForm } from '../model/form.model';
+import { IOrderForm } from '../order/order-form.model';
 
 export const passwordSchema = schema<IOrderForm>((f) => {
   validateTree(f, ({ value, fieldTreeOf }) => {

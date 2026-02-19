@@ -1,4 +1,5 @@
 import { signal } from "@angular/core";
+import { ICreditCardInformation } from "../creditcard/creditcard.model";
 
 export enum PaymentMethod {
     Cash = 'cash',
@@ -14,7 +15,8 @@ export interface IOrderForm {
     password: string;
     confirmPassword: string;
     paymentMethod: string;
-    cardNumber: string;
+    creditcardinformation: ICreditCardInformation;
+    totalAmount: string;
 }
 
 export const OrderFormModel = signal<IOrderForm>({
@@ -26,5 +28,12 @@ export const OrderFormModel = signal<IOrderForm>({
     password: '',
     confirmPassword: '',
     paymentMethod: PaymentMethod.Cash,
-    cardNumber: '',
+    creditcardinformation: {
+        name: '',
+        number: '',
+        expirationDate: '',
+        cvv: '',
+        type: '',
+    },
+    totalAmount: '150.00',
 });

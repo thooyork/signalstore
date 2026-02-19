@@ -1,0 +1,55 @@
+<div class="creditcard-container">
+  <h2>Credit Card Information</h2>
+  <mat-form-field>
+    <mat-label>Cardholder Name</mat-label>
+    <input matInput type="text" [formField]="subform().name" />
+    <mat-error *ngIf="hasError(subform(), 'name', 'required')">{{
+      subform().name().errors()[0].message
+    }}</mat-error>
+  </mat-form-field>
+
+  <div class="row">
+    <div>
+      <mat-form-field>
+        <mat-label>Card Number</mat-label>
+        <input matInput type="text" [formField]="subform().number" />
+        <mat-error *ngIf="hasError(subform(), 'number', 'required')">{{
+          subform().number().errors()[0].message
+        }}</mat-error>
+        <mat-error *ngIf="hasError(subform(), 'number', 'cardnumberlength')">{{
+          subform().number().errors()[0].message
+        }}</mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Expiration Date (MM/YY)</mat-label>
+        <input matInput type="text" [formField]="subform().expirationDate" />
+        <mat-error *ngIf="hasError(subform(), 'expirationDate', 'dateformat')">{{
+          subform().expirationDate().errors()[0].message
+        }}</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div>
+      <mat-form-field>
+        <mat-label>CVV</mat-label>
+        <input matInput type="text" [formField]="subform().cvv" />
+        <mat-error *ngIf="hasError(subform(), 'cvv', 'cvvlength')">{{
+          subform().cvv().errors()[0].message
+        }}</mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Type</mat-label>
+        <input matInput type="text" [formField]="subform().type" />
+        <mat-error *ngIf="hasError(subform(), 'type', 'required')">{{
+          subform().type().errors()[0].message
+        }}</mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+</div>
