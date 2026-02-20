@@ -1,39 +1,41 @@
-import { signal } from "@angular/core";
-import { ICreditCardInformation } from "../creditcard/creditcard.model";
+import { signal } from '@angular/core';
+import { ICreditCardInformation } from '../creditcard/creditcard.model';
+import { IPasswords } from '../password/password.model';
 
 export enum PaymentMethod {
-    Cash = 'cash',
-    Card = 'card',
+  Cash = 'cash',
+  Card = 'card',
 }
 
 export interface IOrderForm {
-    name: string;
-    email: string;
-    street: string;
-    city: string;
-    zip: string;
-    password: string;
-    confirmPassword: string;
-    paymentMethod: string;
-    creditcardinformation: ICreditCardInformation;
-    totalAmount: string;
+  name: string;
+  email: string;
+  street: string;
+  city: string;
+  zip: string;
+  passwords: IPasswords;
+  paymentMethod: string;
+  creditcardinformation: ICreditCardInformation;
+  totalAmount: string;
 }
 
 export const OrderFormModel = signal<IOrderForm>({
-    name: '',
-    email: '',
-    street: '',
-    city: '',
-    zip: '',
+  name: '',
+  email: '',
+  street: '',
+  city: '',
+  zip: '',
+  passwords: {
     password: '',
     confirmPassword: '',
-    paymentMethod: PaymentMethod.Cash,
-    creditcardinformation: {
-        name: '',
-        number: '',
-        expirationDate: '',
-        cvv: '',
-        type: '',
-    },
-    totalAmount: '150.00',
+  },
+  paymentMethod: PaymentMethod.Cash,
+  creditcardinformation: {
+    name: '',
+    number: '',
+    expirationDate: '',
+    cvv: '',
+    type: '',
+  },
+  totalAmount: '150.00',
 });

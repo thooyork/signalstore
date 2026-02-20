@@ -1,7 +1,7 @@
-import { Component, computed, effect, signal } from '@angular/core';
+import { Component, computed, effect } from '@angular/core';
 import { FormField, ValidationError, form, submit } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
-import { IOrderForm, OrderFormModel } from './order-form.model';
+import { OrderFormModel } from './order-form.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -10,10 +10,23 @@ import { orderFormSchema } from './order-form.schema';
 import { MatIconModule } from '@angular/material/icon';
 import { CreditcardForm } from '../creditcard/creditcard-form';
 import { hasError } from '../shared/has-error';
+import { PasswordForm } from '../password/password-form';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'order-form',
-  imports: [FormField, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, CommonModule, MatIconModule, CreditcardForm],
+  imports: [
+    FormField,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    CommonModule,
+    MatIconModule,
+    CreditcardForm,
+    PasswordForm,
+    MatProgressSpinnerModule,
+  ],
   templateUrl: './order-form.html',
   styleUrl: './order-form.scss',
 })
@@ -25,7 +38,6 @@ export class OrderForm {
   constructor() {
     effect(() => {
       if (this.orderForm.creditcardinformation().hidden()) {
-        console.log("resetting creditcardinformation");
         this.orderForm.creditcardinformation().reset({
           name: '',
           number: '',
@@ -35,17 +47,6 @@ export class OrderForm {
         });
       }
     });
-  }
-
-  showPassword = signal(false);
-  showConfirmPassword = signal(false);
-
-  toggleShowPassword() {
-    this.showPassword.update(val => !val);
-  }
-
-  toggleShowConfirmPassword() {
-    this.showConfirmPassword.update(val => !val);
   }
 
   stateSummary = computed(() => {
@@ -69,11 +70,11 @@ export class OrderForm {
           method: 'POST',
           body: JSON.stringify(form().value()),
         });
-        console.log("payload ----->", this.orderForm().value());
-        console.log("response -----> ", await response.json());
+        console.log('payload ----->', this.orderForm().value());
+        console.log('response -----> ', await response.json());
         return undefined;
       } catch (error) {
-        return { message: 'Failed to submit form', kind: "submit" } as ValidationError;
+        return { message: 'Failed to submit form', kind: 'submit' } as ValidationError;
       }
     });
   }

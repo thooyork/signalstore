@@ -9,8 +9,10 @@ export const orderFormSchema = schema<IOrderForm>((f) => {
 
   apply(f.email, emailSchema);
 
-  apply(f, passwordSchema);
+  apply(f.passwords, passwordSchema);
 
+  apply(f.creditcardinformation, creditcardSchema);
+ 
   hidden(f.creditcardinformation, (ctx) => {
     return ctx.valueOf(f.paymentMethod) !== PaymentMethod.Card;
   });
@@ -19,5 +21,4 @@ export const orderFormSchema = schema<IOrderForm>((f) => {
     return true;
   });
 
-  apply(f.creditcardinformation, creditcardSchema);
 });

@@ -1,7 +1,7 @@
 import { schema, validateTree } from '@angular/forms/signals';
-import { IOrderForm } from '../order/order-form.model';
+import { IPasswords } from './password.model';
 
-export const passwordSchema = schema<IOrderForm>((f) => {
+export const passwordSchema = schema<IPasswords>((f) => {
   validateTree(f, ({ value, fieldTreeOf }) => {
     return value().password === value().confirmPassword
       ? undefined

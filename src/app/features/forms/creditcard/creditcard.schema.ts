@@ -5,7 +5,6 @@ import {
   schema,
   validate,
 } from '@angular/forms/signals';
-import { IOrderForm, PaymentMethod } from '../order/order-form.model';
 import * as cardvalidator from 'card-validator';
 import { ICreditCardInformation } from './creditcard.model';
 

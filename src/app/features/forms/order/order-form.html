@@ -29,33 +29,8 @@
       <mat-label>City</mat-label>
       <input matInput type="text" [formField]="form.city" />
     </mat-form-field>
-   
 
-    <mat-form-field>
-      <mat-label>Password</mat-label>
-      <input matInput [type]="showPassword() ? 'text' : 'password'" [formField]="form.password" />
-      <mat-icon matSuffix (click)="toggleShowPassword()">{{
-        showPassword() ? 'visibility_off' : 'visibility'
-      }}</mat-icon>
-      <mat-error *ngIf="hasError(form, 'password', 'passwordmatch')">{{
-        form.password().errors()[0].message
-      }}</mat-error>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Confirm Password</mat-label>
-      <input
-        matInput
-        [type]="showConfirmPassword() ? 'text' : 'password'"
-        [formField]="form.confirmPassword"
-      />
-      <mat-icon matSuffix (click)="toggleShowConfirmPassword()">{{
-        showConfirmPassword() ? 'visibility_off' : 'visibility'
-      }}</mat-icon>
-      <mat-error *ngIf="hasError(form, 'confirmPassword', 'passwordmatch')">{{
-        form.confirmPassword().errors()[0].message
-      }}</mat-error>
-    </mat-form-field>
+    <password-form [subform]="form.passwords"></password-form>
 
     <mat-form-field>
       <mat-label>Payment Method</mat-label>
@@ -75,13 +50,20 @@
       <creditcard-form [subform]="form.creditcardinformation"></creditcard-form>
     }
 
-    <button
-      mat-button
-      (click)="submitForm($event)"
-      [disabled]="form().invalid() || form().submitting()"
-    >
-      Submit
-    </button>
+    <div class="row">
+      <button
+        mat-button
+        (click)="submitForm($event)"
+        [disabled]="form().invalid() || form().submitting()"
+      >
+        Submit
+      </button>
+      <mat-progress-spinner
+        *ngIf="form().submitting()"
+        mode="indeterminate"
+        diameter="20"
+      ></mat-progress-spinner>
+    </div>
   </div>
 
   <div class="form-state-summary">
