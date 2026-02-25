@@ -1,4 +1,4 @@
-import { Component, effect, input } from '@angular/core';
+import { afterNextRender, Component, effect, input } from '@angular/core';
 import { FieldTree, FormField, metadata } from '@angular/forms/signals';
 import { ICreditCardInformation } from './creditcard.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -26,6 +26,11 @@ export class CreditcardForm {
   public hasError = hasError;
 
   constructor() {
+
+    afterNextRender(() => {
+      this.subform().name().focusBoundControl();
+    });
+    
     effect(() => {
       const cardType = this.subform().number().metadata(CARD_TYPE)?.();
       this.subform().type().value.set(cardType ?? '');

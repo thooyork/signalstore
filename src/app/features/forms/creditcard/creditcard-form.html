@@ -13,9 +13,9 @@
       <mat-form-field>
         <mat-label>Card Number</mat-label>
         <input matInput type="text" [formField]="subform().number" />
-        <mat-error *ngIf="hasError(subform(), 'number', 'required')">{{
+        <!-- <mat-error *ngIf="hasError(subform(), 'number', 'required')">{{
           subform().number().errors()[0].message
-        }}</mat-error>
+        }}</mat-error> -->
         <mat-error *ngIf="hasError(subform(), 'number', 'cardnumberlength')">{{
           subform().number().errors()[0].message
         }}</mat-error>

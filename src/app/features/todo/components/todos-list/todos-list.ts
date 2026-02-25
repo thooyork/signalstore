@@ -36,7 +36,7 @@ export class TodosList implements OnInit {
 
   ngOnInit(): void {
     this.loadTodos().then(() => {
-      console.log(this.store.todos());
+      //console.log(this.store.todos());
     });
   }
 

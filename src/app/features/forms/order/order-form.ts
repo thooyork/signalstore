@@ -1,4 +1,4 @@
-import { Component, computed, effect } from '@angular/core';
+import { Component, computed, effect, afterNextRender } from '@angular/core';
 import { FormField, ValidationError, form, submit } from '@angular/forms/signals';
 import { MatButtonModule } from '@angular/material/button';
 import { OrderFormModel } from './order-form.model';
@@ -36,6 +36,12 @@ export class OrderForm {
   public hasError = hasError;
 
   constructor() {
+    afterNextRender(() => {
+      this.orderForm.name().focusBoundControl();
+    });
+   
+
+
     effect(() => {
       if (this.orderForm.creditcardinformation().hidden()) {
         this.orderForm.creditcardinformation().reset({
@@ -70,7 +76,7 @@ export class OrderForm {
           method: 'POST',
           body: JSON.stringify(form().value()),
         });
-        console.log('payload ----->', this.orderForm().value());
+        // console.log('payload ----->', this.orderForm().value());
         console.log('response -----> ', await response.json());
         return undefined;
       } catch (error) {
